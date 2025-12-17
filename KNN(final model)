@@ -1,4 +1,4 @@
-print("\nFinal model training (KNN, 30% test size):")
+print("\nFinal model training (KNN,30% test size):")
 
 X_train_final, X_test_final, y_train_final, y_test_final = train_test_split(
     X_scaled, y_enc,
