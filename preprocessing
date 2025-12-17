@@ -20,3 +20,24 @@ y = df_clean[target_col]
 # Handle missing values
 X = X.fillna('Unknown')
 y = y.fillna('Moderate')
+# Encode categorical features
+cat_cols = X.select_dtypes(include=['object']).columns
+label_encoders = {}
+for col in cat_cols:
+    le = LabelEncoder()
+    X[col] = le.fit_transform(X[col].astype(str))
+    label_encoders[col] = le
+
+# Encode target
+le_target = LabelEncoder()
+y_enc = le_target.fit_transform(y.astype(str))
+
+# Scale features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+print(f"Dataset: {X_scaled.shape[0]} samples, {X_scaled.shape[1]} features")
+print("Target classes:", le_target.classes_)
+print("Target distribution:\n",
+      pd.Series(le_target.inverse_transform(y_enc)).value_counts())
+
