@@ -1,0 +1,22 @@
+plt.style.use('default')
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+fig.suptitle('Model Performance Comparison', fontsize=16, fontweight='bold')
+
+sns.barplot(
+    data=results_df, x='Test_Size', y='F1_Score',
+    hue='Model', ax=axes[0]
+)
+axes[0].set_title('F1-Score Comparison')
+axes[0].set_ylabel('F1-Score')
+axes[0].tick_params(axis='x', rotation=0)
+
+sns.barplot(
+    data=results_df, x='Test_Size', y='Accuracy',
+    hue='Model', ax=axes[1]
+)
+axes[1].set_title('Accuracy Comparison')
+axes[1].set_ylabel('Accuracy')
+axes[1].tick_params(axis='x', rotation=0)
+
+plt.tight_layout()
+plt.show()
