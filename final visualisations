@@ -1,0 +1,29 @@
+plt.figure(figsize=(6, 6)) 
+plt.pie(pd.Series(y_enc).value_counts(), labels=le_target.classes_, autopct='%1.1f%%', startangle=90)
+plt.title('Class Distribution') 
+plt.tight_layout()
+plt.show()
+
+# Confusion matrix heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(confusion_matrix(y_test_final, y_pred_final),
+            annot=True, fmt='d', cmap='Blues',
+            xticklabels=le_target.classes_,
+            yticklabels=le_target.classes_)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.tight_layout()
+plt.show()
+
+# Prediction distribution + best model trend
+best_model_data = results_df[results_df['Model'] == best_row['Model']]
+plt.figure(figsize=(8, 6)) 
+plt.plot(best_model_data['Test_Size'], best_model_data['Accuracy'], 
+         marker='o', linewidth=3, markersize=8, color='red')
+plt.title(f'{best_row["Model"]} Accuracy Trend')
+plt.xlabel('Test Size')
+plt.ylabel('Accuracy')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
