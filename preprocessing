@@ -1,0 +1,22 @@
+df_prev = pd.read_excel('predictive.xlsx', sheet_name='Form Responses 1')
+
+# 2. GENERATE SYNTHETIC DATA (SDV)
+metadata = SingleTableMetadata()
+metadata.detect_from_dataframe(df_prev)
+
+model = GaussianCopulaSynthesizer(metadata)
+model.fit(df_prev)
+
+df = model.sample(num_rows=500)
+print("\nSynthetic Data Sample:\n", df.head())
+
+# Drop timestamp, keep rest
+df_clean = df.iloc[:, 1:].copy()
+target_col = df_clean.columns[-1]
+
+X = df_clean.iloc[:, :-1].copy()
+y = df_clean[target_col]
+
+# Handle missing values
+X = X.fillna('Unknown')
+y = y.fillna('Moderate')
